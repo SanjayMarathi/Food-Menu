@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <nav class="bg-blue-600 text-white">
+      <div class="flex justify-between m-8 px-2 py-4">
+        <a href="" class="font-bold">FoodApp</a>
+        <div class="space-x-6">
+          <a href="">Contact</a>
+          <a href="">Address</a>
+          <a href="">About Us</a>
+        </div>
+      </div>
+    </nav>
+
+    {% block body %}
+    <div>
+      {% for item in item_list %}
+      <div class="m-10 flex w-1/2 mx-auto">
+        <div>
+          <img class="w-70 h-60 rounded-lg" src="{{ item.item_image }}" alt="">
+        </div>
+        <div class="mx-10">
+        <div class="font-bold">{{ item.item_name }}</div>
+        <div>{{ item.item_description }}</div>
+        <div class="text-green-700 font-bold">${{ item.item_price }}</div>
+        
+        </div>
+        <div>
+          <a class="bg-red-500 text-white font-bold px-4 py-2 rounded-md" href="{% url 'myapp:detail' item.id %}">View Details</a>
+        </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endblock %}
+  </body>
+</html>
