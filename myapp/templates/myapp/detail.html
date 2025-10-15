@@ -4,18 +4,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ item.item_name }}</title>
+  <title>{{ item.item_name }} | FoodApp</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-blue-700 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <a href="{% url 'myapp:index' %}" class="text-2xl font-extrabold tracking-wider hover:text-blue-200 transition duration-150">← Back to Menu</a>
+      </div>
+    </div>
+  </nav>
 
+  <div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-3xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="md:col-span-1">
+        <img class="w-full h-80 object-cover rounded-lg shadow-xl" src="{{ item.item_image }}" alt="{{ item.item_name }}">
+      </div>
 
-  <!-- Detail Card -->
-  <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-    <img class="w-full h-96 object-cover rounded-lg" src="{{ item.item_image }}" alt="{{ item.item_name }}">
-    
-    <h1 class="text-3xl font-bold mt-4">{{ item.item_name }}</h1>
-    <p class="mt-2 text-gray-700">{{ item.item_description }}</p>
-    <p class="text-green-700 font-bold mt-2 text-xl">${{ item.item_price }}</p>
+      <div class="md:col-span-1 flex flex-col justify-between">
+        <div>
+          <h1 class="text-4xl font-extrabold text-gray-900 mb-3">{{ item.item_name }}</h1>
+          <p class="mt-2 text-gray-700 text-lg leading-relaxed">{{ item.item_description }}</p>
+        </div>
+        
+        <div>
+          <p class="text-4xl text-green-600 font-extrabold mt-6">${{ item.item_price }}</p>
+
+          <div class="flex space-x-4 mt-6">
+            <a class="flex-1 text-center bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-md" 
+               href="{% url 'myapp:item_update' item.id %}">
+              Edit Item
+            </a>
+            <a class="flex-1 text-center bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-md" 
+               href="{% url 'myapp:item_delete' item.id %}">
+              Delete Item
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </body>

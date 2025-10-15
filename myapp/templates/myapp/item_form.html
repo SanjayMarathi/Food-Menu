@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title|default:'Item Form' }} | FoodApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-blue-700 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <a href="{% url 'myapp:index' %}" class="text-2xl font-extrabold tracking-wider hover:text-blue-200 transition duration-150">← Back to Menu</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-xl shadow-2xl">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">{{ title|default:'Add/Update Item' }}</h1>
+    
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="flex flex-col">
+            <label for="{{ field.id_for_label }}" class="text-lg font-medium text-gray-700 mb-1">
+                {{ field.label }}
+            </label>
+            {{ field }}
+            {% for error in field.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="flex justify-end pt-4">
+          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
+            Save Item
+          </button>
+        </div>
+    </form>
+
+    {% if item %}
+    <div class="mt-6 pt-4 border-t border-gray-200">
+      <a class="text-sm text-red-500 hover:text-red-700 transition duration-150" 
+         href="{% url 'myapp:item_delete' item.id %}">
+        Or, Delete this item
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  <style>
+    /* Custom styling for form fields to look good with Tailwind */
+    input:not([type="checkbox"]), textarea {
+        @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150;
+    }
+  </style>
+</body>
+</html>
