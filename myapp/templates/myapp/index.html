@@ -12,37 +12,65 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex-shrink-0 flex items-center">
-            <a href="{% url 'myapp:index' %}" class="text-2xl font-extrabold tracking-wider">FoodApp</a>
+            <a
+              href="{% url 'myapp:index' %}"
+              class="text-2xl font-extrabold tracking-wider"
+              >FoodApp</a
+            >
           </div>
           <div class="flex items-center space-x-4">
-            <a href="{% url 'myapp:create_item' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
-                + Add New Item
+            <a
+              href="{% url 'myapp:create_item' %}"
+              class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md"
+            >
+              + Add New Item
             </a>
           </div>
         </div>
       </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Menu</h2>
+    {% if messages %} {% for message in messages %}
+    <div class="bg-green-500 text-green-700">{{ message }}</div>
+    {% endfor %} {% endif %}
 
-      {% block body %}
-      {% if not item_list %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">
+        Menu
+      </h2>
+
+      {% block body %} {% if not item_list %}
       <div class="text-center text-gray-500 text-lg py-10">
-          No menu items found. Start by adding a new item!
+        No menu items found. Start by adding a new item!
       </div>
       {% else %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      >
         {% for item in item_list %}
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-3xl transition duration-300 transform hover:-translate-y-1">
-          <img class="w-full h-56 object-cover" src="{{ item.item_image }}" alt="{{ item.item_name }}">
+        <div
+          class="bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-3xl transition duration-300 transform hover:-translate-y-1"
+        >
+          <img
+            class="w-full h-56 object-cover"
+            src="{{ item.item_image }}"
+            alt="{{ item.item_name }}"
+          />
           <div class="p-6">
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ item.item_name }}</h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ item.item_description|truncatewords:15 }}</p>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              {{ item.item_name }}
+            </h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+              {{ item.item_description|truncatewords:15 }}
+            </p>
             <div class="flex justify-between items-center">
-              <span class="text-3xl font-extrabold text-green-600">${{ item.item_price }}</span>
-              <a class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-150 shadow-lg" 
-                 href="{% url 'myapp:detail' item.id %}">
+              <span class="text-3xl font-extrabold text-green-600"
+                >${{ item.item_price }}</span
+              >
+              <a
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-150 shadow-lg"
+                href="{% url 'myapp:detail' item.id %}"
+              >
                 View Details
               </a>
             </div>
@@ -50,8 +78,7 @@
         </div>
         {% endfor %}
       </div>
-      {% endif %}
-      {% endblock %}
+      {% endif %} {% endblock %}
     </div>
   </body>
 </html>
