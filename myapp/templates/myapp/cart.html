@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart | FoodApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-blue-700 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <a href="{% url 'myapp:menu' %}" class="text-2xl font-extrabold tracking-wider hover:text-blue-200 transition duration-150">← Continue Ordering</a>
+             <span class="text-xl font-bold">Table: {{ table_number }}</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto mt-10 p-8 bg-white rounded-xl shadow-2xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">Your Cart</h1>
+        
+        {% if cart_items %}
+            <div class="space-y-4">
+                {% for item in cart_items %}
+                <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                    <div class="text-lg text-gray-700">
+                        {{ item.quantity }} x <span class="font-semibold">{{ item.name }}</span>
+                    </div>
+                    <div class="text-xl font-bold text-green-600">
+                        ${% widthratio item.price 1 item.quantity %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-gray-300 flex justify-between items-center">
+                <span class="text-2xl font-extrabold text-gray-900">Total:</span>
+                <span class="text-4xl font-extrabold text-red-600">${{ cart_total|floatformat:2 }}</span>
+            </div>
+
+            <form method="POST" action="{% url 'myapp:checkout' %}" class="mt-8">
+                {% csrf_token %}
+                <p class="text-center text-sm text-gray-500 mb-4">Clicking "Place Order" simulates the billing step. Your order will be created as "Pending" in the system.</p>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg transition duration-150 shadow-lg text-xl">
+                    Place Order & Proceed to Billing
+                </button>
+            </form>
+        {% else %}
+            <div class="text-center text-gray-500 text-lg py-10">
+                Your cart is empty.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

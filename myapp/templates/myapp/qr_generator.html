@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code for Table {{ table_id }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-2xl text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Table {{ table_id }} - Order Menu</h1>
+        
+        <p class="text-gray-600 mb-6">Scan the code below to view the digital menu.</p>
+
+        <div class="p-4 inline-block border-4 border-gray-900 rounded-lg">
+            <img src="data:image/png;base64,{{ qr_code_data }}" alt="QR Code for Table {{ table_id }}" class="w-64 h-64 object-contain">
+        </div>
+
+        <p class="text-sm text-gray-500 mt-4 break-all">Link: <a href="{{ full_url }}" target="_blank" class="text-blue-500 hover:text-blue-700">{{ full_url }}</a></p>
+
+        <div class="mt-8 no-print">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg mr-4">
+                🖨️ Print QR Code
+            </button>
+            <button onclick="window.close()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-md">
+                Close
+            </button>
+        </div>
+    </div>
+</body>
+</html>

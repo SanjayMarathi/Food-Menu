@@ -1,5 +1,46 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Login</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | FoodApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+  <div class="max-w-md w-full mx-auto p-8 bg-white rounded-xl shadow-2xl">
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-6 text-center">Login</h1>
+    
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="flex flex-col">
+            <label for="{{ field.id_for_label }}" class="text-lg font-medium text-gray-700 mb-1">
+                {{ field.label }}
+            </label>
+            {{ field }}
+            {% for error in field.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="flex justify-between items-center pt-2">
+            <p class="text-sm text-gray-600">Need an account? <a href="{% url 'register' %}" class="text-blue-600 hover:text-blue-800 font-semibold">Sign Up</a></p>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
+                Login
+            </button>
+        </div>
+    </form>
+  </div>
+
+  <style>
+    /* Custom styling for form fields to look good with Tailwind */
+    input:not([type="checkbox"]), textarea {
+        @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150;
+    }
+  </style>
+</body>
+</html>

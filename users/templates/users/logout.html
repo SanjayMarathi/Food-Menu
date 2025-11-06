@@ -1,1 +1,24 @@
-<h2>You have been logged Out</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logged Out | FoodApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+  <div class="max-w-md w-full mx-auto p-8 bg-white rounded-xl shadow-2xl text-center">
+    <svg class="mx-auto h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+    <h2 class="text-3xl font-bold text-gray-800 mt-4 mb-4">You have been logged out.</h2>
+    <p class="text-gray-600 mb-6">Thank you for using FoodApp.</p>
+    
+    <a href="{% url 'login' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
+        Log In Again
+    </a>
+  </div>
+</body>
+</html>

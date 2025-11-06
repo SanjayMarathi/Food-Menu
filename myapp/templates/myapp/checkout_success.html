@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Placed! | FoodApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+    <div class="max-w-md mx-auto p-8 bg-white rounded-xl shadow-2xl text-center">
+        <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h1 class="text-3xl font-bold text-green-700 mt-4 mb-2">Order Placed Successfully!</h1>
+        
+        <p class="text-gray-700 text-lg mb-4">
+            Your order has been sent to the kitchen.
+        </p>
+        
+        <p class="text-gray-900 font-extrabold text-2xl mb-6">
+            Order #{{ order.id }} - Total: ${{ order.total_price|floatformat:2 }}
+        </p>
+
+        <p class="text-gray-600 text-sm mb-8">
+            Please wait for the staff to process your payment.
+        </p>
+        
+        <a href="{% url 'myapp:menu' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
+            Start New Order
+        </a>
+    </div>
+</body>
+</html>
