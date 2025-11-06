@@ -50,8 +50,9 @@ FoodApp is a modern Django application that provides QR-based digital menus for 
 # ⚙️ Setup & Installation
 
 ## 1️⃣ Clone Repository
-
-git clone <your-repository-url>
+'''
+git clone https://github.com/SanjayMarathi/Food-Menu.git
+'''
 cd mysite
 ## 2️⃣ Create & Activate Virtual Environment
 bash
@@ -74,15 +75,20 @@ If requirements.txt is missing:
 bash
 Copy code
 pip install django gunicorn qrcode pillow
+
+
 ## 4️⃣ Apply Migrations
 bash
 Copy code
 python manage.py makemigrations myapp
 python manage.py migrate
+
+
 ## 5️⃣ Create Superuser
 bash
 Copy code
 python manage.py createsuperuser
+
 ## 6️⃣ Run Server
 bash
 Copy code
