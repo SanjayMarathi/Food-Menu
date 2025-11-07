@@ -1,144 +1,102 @@
 # 📸 Screenshots
-
----
-
-### 🛒 Customer Menu Page
+### <p align="center">🍽️ Customer Menu Page</p>
 <p align="center">
-  <img src="output/customerMenu.png" width="700" alt="Item Update" />
+  <img src="output/customermenu.png" width="700" alt="Customer Menu" />
 </p>
-Displays the full digital menu that customers see after scanning the QR code.
-
----
-
-### ✏️ Update Item Page (Staff)
 <p align="center">
-  <img src="output/itemUpdate.png" width="700" alt="Item Update" />
+  Main digital menu shown after scanning the table QR. Displays all food items with name, price, image, and short description.
 </p>
-Staff can update food items, change availability, and edit pricing.
 
 ---
 
-### 🔐 Login Page
+### <p align="center">🍛 Item Detail Card (Expanded View)</p>
+<p align="center">
+  <img src="output/itemcard.png" width="700" alt="Item Detail Card" />
+</p>
+<p align="center">
+  Opens when a customer taps on a dish. Shows a bigger image, detailed description, and an <b>Add to Cart</b> button.
+</p>
+
+---
+
+### <p align="center">🛒 Cart Page</p>
+<p align="center">
+  <img src="output/cart.png" width="700" alt="Cart Page" />
+</p>
+<p align="center">
+  Displays selected items with quantity, per-item total, and the final <b>Place Order</b> button.
+</p>
+
+---
+
+### <p align="center">📈 Kitchen & Revenue Dashboard</p>
+<p align="center">
+  <img src="output/kitchenrevenue.png" width="700" alt="Kitchen & Revenue Dashboard" />
+</p>
+<p align="center">
+  Provides totals, revenue, and best-selling items — helping staff monitor daily performance.
+</p>
+
+---
+
+### <p align="center">🍽️ Staff Menu Management</p>
+<p align="center">
+  <img src="output/staffmenu.png" width="700" alt="Staff Menu Management" />
+</p>
+<p align="center">
+  Admin-side grid of all menu items with edit, delete, and view options.
+</p>
+
+---
+
+### <p align="center">✏️ Update Item Page (Staff)</p>
+<p align="center">
+  <img src="output/update.png" width="700" alt="Update Item" />
+</p>
+<p align="center">
+  Edit item details such as name, description, price, and image in a clean form layout.
+</p>
+
+---
+
+### <p align="center">🔐 Login Page</p>
 <p align="center">
   <img src="output/login.png" width="700" alt="Login" />
 </p>
-Secure staff login required to access management dashboard.
-
----
-
-### 📱 QR Code for Tables
 <p align="center">
-  <img src="output/qrfortables.png" width="700" alt="QR for Tables" />
-</p>
-Each table receives a unique QR code for ordering.
-
----
-
-### 🧾 Registration Page
-<p align="center">
-  <img src="output/registration.png" width="700" alt="Registration" />
-</p>
-Staff can register new accounts if allowed.
-
----
-
-### 🧑‍🍳 Staff Dashboard
-<p align="center">
-  <img src="output/staffdashboard.png" width="700" alt="Staff Dashboard" />
-</p>
-Central hub showing active orders, statuses, and actions.
-
----
-
-### 🍽️ Staff Menu Management
-<p align="center">
-  <img src="output/staffMenu.png" width="700" alt="Staff Menu" />
-</p>
-Interface for staff to add or edit menu items.
-
----
-
-### 👤 Staff Profile Page
-<p align="center">
-  <img src="output/staffprofile.png" width="700" alt="Staff Profile" />
-</p>
-Displays staff account information and settings.
-
----
-
----
-
-### 🛒 Customer Menu Page
-<p align="center">
-  <img src="output/customerMenu.png" width="700"/>
+  Simple and secure login page for staff with a modern theme.
 </p>
 
-Displays the full digital menu that customers see after scanning the QR code.
-
 ---
 
-### ✏️ Update Item Page (Staff)
+### <p align="center">🧾 Registration Page</p>
 <p align="center">
-  <img src="output/itemUpdate.png" width="700"/>
+  <img src="output/register.png" width="700" alt="Registration" />
+</p>
+<p align="center">
+  Staff account creation form with live validation and themed UI.
 </p>
 
-Staff can update food items, change details, and update pricing.
-
 ---
 
-### 🔐 Login Page
+### <p align="center">📱 QR Code for Tables</p>
 <p align="center">
-  <img src="output/login.png" width="700"/>
+  <img src="output/qrcode.png" width="700" alt="QR Code for Tables" />
+</p>
+<p align="center">
+  Printable table QR codes that directly open the table-specific digital menu.
 </p>
 
-Staff login required to access the dashboard.
-
 ---
 
-### 📱 QR Code for Tables
+### <p align="center">📘 How to Use Page</p>
 <p align="center">
-  <img src="output/qrfortables.png" width="700"/>
+  <img src="output/howtouse.png" width="700" alt="How to Use" />
+</p>
+<p align="center">
+  Step-by-step guide explaining customer flow, staff actions, QR usage, and FAQs.
 </p>
 
-Each table receives a unique QR code for ordering.
-
----
-
-### 🧾 Registration Page
-<p align="center">
-  <img src="output/registration.png" width="700"/>
-</p>
-
-Staff can register an account if allowed.
-
----
-
-### 🧑‍🍳 Staff Dashboard
-<p align="center">
-  <img src="output/staffdashboard.png" width="700"/>
-</p>
-
-Displays active orders, statuses, and actions.
-
----
-
-### 🍽️ Staff Menu Management
-<p align="center">
-  <img src="output/staffMenu.png" width="700"/>
-</p>
-
-Interface to manage all menu items.
-
----
-
-### 👤 Staff Profile Page
-<p align="center">
-  <img src="output/staffprofile.png" width="700"/>
-</p>
-
-Displays staff account information.
-
----
 
 ---
 
