@@ -10,11 +10,10 @@
 
 <body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
 
-  <!-- NAVBAR -->
   <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <a href="{% if user.is_staff %}{% url 'myapp:staff_dashboard' %}{% else %}{% url 'myapp:menu' %}{% endif %}"
+        <a href="{% if user.is_staff %}{% url 'myapp:staff_dashboard' %}{% else %}{% url 'myapp:index' %}{% endif %}"
            class="text-xl font-extrabold tracking-wide hover:text-orange-100 transition">
           ← Back
         </a>
@@ -23,21 +22,30 @@
     </div>
   </nav>
 
-  <!-- PROFILE CARD -->
   <div class="max-w-2xl mx-auto mt-12 p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
+    
+    {% if messages %}
+    <div class="mb-4 space-y-3">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl text-sm ring-1 ring-black/5
+            {% if message.tags == 'success' %} bg-emerald-50 text-emerald-700
+            {% elif message.tags == 'error' %} bg-rose-50 text-rose-700
+            {% else %} bg-gray-50 text-gray-700 {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-    <!-- Profile Image -->
     <img 
       class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-orange-500 shadow-md"
       src="{{ user.profile.image.url }}"
       alt="{{ user.username }}'s Profile Picture">
 
-    <!-- Username -->
     <h1 class="text-4xl font-extrabold text-gray-900 mt-5">
       {{ user.username }}
     </h1>
 
-    <!-- Details -->
     <div class="mt-6 space-y-4 text-gray-700 text-lg">
       <p>
         <span class="font-semibold text-gray-900">Email:</span> {{ user.email }}
@@ -53,11 +61,16 @@
       {% endif %}
     </div>
 
-    <!-- Logout Button -->
-    <a href="{% url 'logout' %}"
-       class="inline-block mt-10 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
-      Logout
-    </a>
+    <div class="flex flex-col sm:flex-row justify-center gap-3 mt-10">
+      <a href="{% url 'profile_update' %}"
+         class="inline-block px-6 py-3 rounded-xl bg-gray-100 text-gray-800 font-semibold shadow-md hover:bg-gray-200 transition">
+        Edit Profile
+      </a>
+      <a href="{% url 'logout' %}"
+         class="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+        Logout
+      </a>
+    </div>
   </div>
 
 </body>

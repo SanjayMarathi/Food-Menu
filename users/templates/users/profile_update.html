@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }} | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+
+  <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <a href="{% url 'profile' %}"
+           class="text-xl font-extrabold tracking-wide hover:text-orange-100 transition">← Back to Profile</a>
+        <h1 class="text-base sm:text-lg font-semibold opacity-90">{{ title }}</h1>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-2xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+    {% if messages %}
+    <div class="mb-4 space-y-3">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl text-sm ring-1 ring-black/5
+            {% if message.tags == 'success' %} bg-emerald-50 text-emerald-700
+            {% elif message.tags == 'error' %} bg-rose-50 text-rose-700
+            {% else %} bg-gray-50 text-gray-700 {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+
+  <div class="max-w-2xl mx-auto mt-4 p-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5">
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">{{ title }}</h2>
+
+    <form method="POST" class="space-y-6" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <h3 class="text-xl font-bold text-gray-800 pt-4 border-t border-gray-100">User Account Details</h3>
+      {% for field in u_form %}
+        <div class="flex flex-col">
+          <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-700 mb-1.5">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="text-rose-600 text-sm mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      
+      <h3 class="text-xl font-bold text-gray-800 pt-8 border-t border-gray-200">Profile Details</h3>
+      <div class="mb-4">
+        <label class="text-sm font-medium text-gray-700 mb-1.5 block">Current Profile Image</label>
+        <img 
+            class="w-24 h-24 object-cover rounded-full border-2 border-orange-400 shadow-sm"
+            src="{{ user.profile.image.url }}"
+            alt="{{ user.username }}'s Profile Picture">
+      </div>
+      
+      {% for field in p_form %}
+        <div class="flex flex-col">
+          <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-700 mb-1.5">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="text-rose-600 text-sm mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="flex justify-end gap-3 pt-2">
+        <a href="{% url 'profile' %}"
+           class="px-5 py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium transition">
+          Cancel
+        </a>
+        <button type="submit"
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+          Save Changes
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+  <style>
+    /* Inputs, Select and Textarea unified styling */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid #e5e7eb; /* gray-300 */
+      border-radius: 0.75rem;     /* rounded-xl */
+      background: #fff;
+      color: #111827;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    /* File input specific styling (override default appearance) */
+    input[type="file"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      background: #fff;
+      color: #111827;
+      outline: none;
+    }
+    input[type="file"]:focus {
+      border-color: #f97316; /* orange-500 */
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.18);
+    }
+    /* Placeholders */
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af; /* gray-400 */
+    }
+
+    /* Orange focus ring */
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #f97316; /* orange-500 */
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.18);
+    }
+
+    /* Textarea fix: themed height & spacing */
+    textarea {
+      min-height: 9.5rem;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    /* Disabled fields */
+    input[disabled],
+    textarea[disabled],
+    select[disabled] {
+      background: #f3f4f6; /* gray-100 */
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    button:active { transform: translateY(1px); }
+  </style>
+
+</body>
+</html>

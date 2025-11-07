@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, F, DecimalField # Used for dashboard reports
-from django.contrib import messages # <--- ADDED
+from django.contrib import messages 
 
 # QR Code Libraries
 import qrcode
@@ -15,54 +15,49 @@ from base64 import b64encode
 from .models import Item, Order, OrderItem
 from .forms import ItemForm
 
-# --- Permissions Helper ---
-def staff_required(view_func):
-    """Decorator to ensure user is logged in AND is staff."""
-    @login_required(login_url='login')
-    def wrapper(request, *args, **kwargs):
-        if not request.user.is_staff:
-            raise PermissionDenied
-        return view_func(request, *args, **kwargs)
-    return wrapper
+# --- Admin/Staff Views (Now Multi-Tenant by filtering by request.user) ---
 
-# --- Admin/Staff Views ---
-
-@staff_required
+@login_required(login_url='login')
 def index(request):
-    """Staff Menu Management List (Shows ALL items, including unavailable)"""
-    item_list = Item.objects.all()
+    """Staff Menu Management List (Shows ONLY items created by the logged-in user)"""
+    # FILTER: Only show items created by the current user
+    item_list = Item.objects.filter(user_name=request.user)
     context = {
         'item_list':item_list
     }
     return render(request,"myapp/index.html",context)
 
-@staff_required
+@login_required(login_url='login')
 def detail(request, id):
-    item = get_object_or_404(Item, id=id)
+    # FILTER: Only get item if it belongs to the current user
+    item = get_object_or_404(Item, id=id, user_name=request.user)
     return render(request, 'myapp/detail.html', {'item':item})
       
-@staff_required
+@login_required(login_url='login')
 def create_item(request):
     form = ItemForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         item = form.save(commit=False)
+        # ASSIGN: Set the creator of the item to the current user
         item.user_name = request.user
         item.save()
         return redirect('myapp:index')
     return render(request, 'myapp/item_form.html', {'form': form, 'title': 'Add New Food Item'})
 
-@staff_required
+@login_required(login_url='login')
 def update_item(request, id):
-    item = get_object_or_404(Item, id=id)
+    # FILTER: Only get item if it belongs to the current user
+    item = get_object_or_404(Item, id=id, user_name=request.user)
     form = ItemForm(request.POST or None, instance = item)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('myapp:detail', id=item.id)
     return render(request, 'myapp/item_form.html', {'form':form, 'item': item, 'title': f'Update {item.item_name}'})
 
-@staff_required
+@login_required(login_url='login')
 def delete_item(request, id): 
-    item = get_object_or_404(Item, id=id)
+    # FILTER: Only get item if it belongs to the current user
+    item = get_object_or_404(Item, id=id, user_name=request.user)
     if request.method == 'POST':
         item.delete()
         return redirect('myapp:index')
@@ -70,17 +65,33 @@ def delete_item(request, id):
 
 # --- QR Code and Dashboard Logic ---
 
-@staff_required
+@login_required(login_url='login')
 def staff_dashboard(request):
-    """Dashboard for staff to view orders, revenue, and item sales."""
+    """Dashboard for staff to view orders, revenue, and item sales FOR THEIR RESTAURANT."""
     
-    active_orders = Order.objects.filter(status__in=['Pending', 'Preparing']).order_by('-created_at')
+    # 1. Base query: Orders that contain items owned by the current user
+    all_orders_for_user = Order.objects.filter(
+        orderitem__item__user_name=request.user
+    ).distinct()
+
+    # 2. Active Orders
+    active_orders = all_orders_for_user.filter(
+        status__in=['Pending', 'Preparing']
+    ).order_by('-created_at')
     
-    all_orders = Order.objects.all()
-    total_orders_count = all_orders.count()
-    total_revenue = all_orders.filter(is_paid=True).aggregate(total=Sum('total_price'))['total'] or 0.00
+    # 3. Totals and Revenue
+    total_orders_count = all_orders_for_user.count()
+    total_revenue = all_orders_for_user.filter(
+        is_paid=True
+    ).aggregate(
+        total=Sum('total_price')
+    )['total'] or 0.00
     
-    item_sales_report = OrderItem.objects.values('item_name').annotate(
+    # 4. Item Sales Report (Filter OrderItems by the Item's owner)
+    item_sales_report = OrderItem.objects.filter(
+        item__user_name=request.user,
+        order__is_paid=True # Only count paid orders for revenue/sales report
+    ).values('item_name').annotate(
         total_quantity=Sum('quantity'),
         total_revenue=Sum(F('item_price') * F('quantity'), output_field=DecimalField())
     ).order_by('-total_quantity')
@@ -94,10 +105,10 @@ def staff_dashboard(request):
     return render(request, 'myapp/staff_dashboard.html', context)
 
 
-@staff_required
+@login_required(login_url='login')
 def generate_qr_code(request, table_id):
     """Generates a QR code for a specific table URL."""
-    # Construct the full URL that the QR code should point to
+    # Logic remains the same, as the QR code URL is the public menu link.
     relative_url = reverse('myapp:menu_with_table', kwargs={'table_id': table_id})
     full_url = request.build_absolute_uri(relative_url)
 
@@ -121,11 +132,14 @@ def generate_qr_code(request, table_id):
     }
     return render(request, 'myapp/qr_generator.html', context)
 
-# Placeholder for Order Status Update (Staff action)
-@staff_required
+@login_required(login_url='login')
 def update_order_status(request, order_id, new_status):
-    order = get_object_or_404(Order, id=order_id)
-    # FIX: Change to Item.STATUS_CHOICES as the choices were incorrectly linked to Order in models.py
+    # FILTER: Only allow updating orders that contain items owned by the current user
+    order = get_object_or_404(
+        Order.objects.filter(orderitem__item__user_name=request.user).distinct(), 
+        id=order_id
+    )
+
     if new_status in [choice[0] for choice in Item.STATUS_CHOICES]:
         order.status = new_status
         if new_status == 'Completed':
@@ -134,10 +148,14 @@ def update_order_status(request, order_id, new_status):
     return redirect('myapp:staff_dashboard')
 
 
-# --- Customer Facing Views (The functions that were missing) ---
+# --- Customer Facing Views (Public menu now filters by item availability, NOT ownership) ---
 
 def menu(request, table_id=None):
-    """Public view for customers, filters items by is_available=True."""
+    """Public view for customers, filters items by is_available=True.
+       NOTE: This public menu intentionally shows ALL available items, 
+             as the current model structure does not assign a 'restaurant' 
+             to the session to filter the menu by owner.
+    """
     if table_id:
         request.session['table_number'] = table_id
         # Store the current menu URL for redirection after adding an item to cart
