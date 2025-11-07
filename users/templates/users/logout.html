@@ -2,23 +2,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Logged Out | FoodApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logged Out | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
 
-  <div class="max-w-md w-full mx-auto p-8 bg-white rounded-xl shadow-2xl text-center">
-    <svg class="mx-auto h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-    <h2 class="text-3xl font-bold text-gray-800 mt-4 mb-4">You have been logged out.</h2>
-    <p class="text-gray-600 mb-6">Thank you for using FoodApp.</p>
-    
-    <a href="{% url 'login' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
-        Log In Again
+<body class="min-h-dvh flex items-center justify-center bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+
+  <div class="max-w-md w-full mx-auto p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
+
+    <div class="mx-auto size-16 rounded-xl grid place-content-center bg-orange-100 text-orange-600 shadow-sm">
+      <svg viewBox="0 0 24 24" fill="none" class="size-8" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H8m7 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h6a3 3 0 013 3v1" />
+      </svg>
+    </div>
+
+    <h2 class="text-3xl font-extrabold text-gray-800 mt-6 mb-3">
+      You have been logged out
+    </h2>
+
+    <p class="text-gray-600 mb-8">
+      Thank you for using FoodApp. Come back anytime!
+    </p>
+
+    <a href="{% url 'login' %}"
+      class="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+      Log In Again
     </a>
   </div>
+
 </body>
 </html>

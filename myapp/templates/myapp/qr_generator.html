@@ -2,39 +2,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code for Table {{ table_id }}</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        @media print {
-            .no-print {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code for Table {{ table_id }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    @media print {
+      .no-print { display: none; }
+      body { background: white !important; }
+      .shadow-2xl { box-shadow: none !important; }
+      .bg-white\/90 { background: white !important; }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
-    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-2xl text-center">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Table {{ table_id }} - Order Menu</h1>
-        
-        <p class="text-gray-600 mb-6">Scan the code below to view the digital menu.</p>
+<body class="min-h-dvh flex items-center justify-center bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_65%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_70%),linear-gradient(180deg,#fff7f3,#fff)]">
 
-        <div class="p-4 inline-block border-4 border-gray-900 rounded-lg">
-            <img src="data:image/png;base64,{{ qr_code_data }}" alt="QR Code for Table {{ table_id }}" class="w-64 h-64 object-contain">
-        </div>
+  <div class="max-w-md w-full p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
 
-        <p class="text-sm text-gray-500 mt-4 break-all">Link: <a href="{{ full_url }}" target="_blank" class="text-blue-500 hover:text-blue-700">{{ full_url }}</a></p>
+      <!-- TITLE -->
+      <h1 class="text-3xl font-extrabold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-4">
+        Table {{ table_id }} — Scan to Order
+      </h1>
 
-        <div class="mt-8 no-print">
-            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg mr-4">
-                🖨️ Print QR Code
-            </button>
-            <button onclick="window.close()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-md">
-                Close
-            </button>
-        </div>
-    </div>
+      <p class="text-gray-700 mb-6">
+        Scan the QR below to open the digital menu.
+      </p>
+
+      <!-- QR CODE BLOCK -->
+      <div class="inline-block p-4 border-4 border-gray-900 rounded-2xl bg-white shadow-md">
+        <img src="data:image/png;base64,{{ qr_code_data }}"
+             alt="QR Code for Table {{ table_id }}"
+             class="w-64 h-64 object-contain">
+      </div>
+
+      <!-- URL -->
+      <p class="text-sm text-gray-500 mt-4 break-all">
+        Link:
+        <a href="{{ full_url }}" target="_blank"
+           class="text-orange-600 hover:text-orange-700 font-medium">
+          {{ full_url }}
+        </a>
+      </p>
+
+      <!-- BUTTONS -->
+      <div class="mt-8 no-print flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="window.print()"
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold shadow-md hover:from-orange-700 hover:to-red-700 transition">
+          🖨️ Print QR Code
+        </button>
+
+        <button onclick="window.close()"
+                class="px-6 py-3 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow-md hover:bg-gray-300 transition">
+          Close
+        </button>
+      </div>
+
+  </div>
+
 </body>
 </html>

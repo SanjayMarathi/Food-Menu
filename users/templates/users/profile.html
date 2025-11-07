@@ -2,44 +2,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ user.username }}'s Profile | FoodApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ user.username }}'s Profile | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <nav class="bg-blue-700 text-white shadow-lg">
+
+<body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+
+  <!-- NAVBAR -->
+  <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <a href="{% if user.is_staff %}{% url 'myapp:staff_dashboard' %}{% else %}{% url 'myapp:menu' %}{% endif %}" class="text-2xl font-extrabold tracking-wider hover:text-blue-200 transition duration-150">← Back</a>
+        <a href="{% if user.is_staff %}{% url 'myapp:staff_dashboard' %}{% else %}{% url 'myapp:menu' %}{% endif %}"
+           class="text-xl font-extrabold tracking-wide hover:text-orange-100 transition">
+          ← Back
+        </a>
+        <h1 class="text-lg font-semibold opacity-90">{{ user.username }}'s Profile</h1>
       </div>
     </div>
   </nav>
 
-  <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-xl shadow-2xl text-center">
-    
+  <!-- PROFILE CARD -->
+  <div class="max-w-2xl mx-auto mt-12 p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
+
+    <!-- Profile Image -->
     <img 
-      class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-blue-500 shadow-md" 
-      src="{{ user.profile.image.url }}" 
+      class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-orange-500 shadow-md"
+      src="{{ user.profile.image.url }}"
       alt="{{ user.username }}'s Profile Picture">
 
-    <h1 class="text-4xl font-extrabold text-gray-900 mt-4 mb-2">{{ user.username }}</h1>
+    <!-- Username -->
+    <h1 class="text-4xl font-extrabold text-gray-900 mt-5">
+      {{ user.username }}
+    </h1>
 
-    <div class="mt-6 space-y-3">
-        <p class="text-lg text-gray-700">
-            <span class="font-semibold text-gray-900">Email:</span> {{ user.email }}
-        </p>
-        <p class="text-lg text-gray-700">
-            <span class="font-semibold text-gray-900">Location:</span> {{ user.profile.location }}
-        </p>
-        {% if user.is_staff %}
-        <p class="text-md font-bold text-red-600 pt-4">Staff / Admin Account</p>
-        {% endif %}
+    <!-- Details -->
+    <div class="mt-6 space-y-4 text-gray-700 text-lg">
+      <p>
+        <span class="font-semibold text-gray-900">Email:</span> {{ user.email }}
+      </p>
+      <p>
+        <span class="font-semibold text-gray-900">Location:</span> {{ user.profile.location }}
+      </p>
+
+      {% if user.is_staff %}
+      <p class="text-md font-bold text-red-600 pt-3">
+        Staff / Admin Account
+      </p>
+      {% endif %}
     </div>
 
-    <a href="{% url 'logout' %}" class="inline-block mt-8 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
-        Logout
+    <!-- Logout Button -->
+    <a href="{% url 'logout' %}"
+       class="inline-block mt-10 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+      Logout
     </a>
   </div>
+
 </body>
 </html>

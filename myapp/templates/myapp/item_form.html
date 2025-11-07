@@ -2,59 +2,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title|default:'Item Form' }} | FoodApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title|default:'Item Form' }} | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <nav class="bg-blue-700 text-white shadow-lg">
+
+<body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+  <!-- NAV -->
+  <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <a href="{% url 'myapp:index' %}" class="text-2xl font-extrabold tracking-wider hover:text-blue-200 transition duration-150">← Back to Menu</a>
+        <a href="{% url 'myapp:index' %}"
+           class="text-xl font-extrabold tracking-wide hover:text-orange-100 transition">← Back to Menu</a>
+        <h1 class="text-base sm:text-lg font-semibold opacity-90">{{ title|default:'Add/Update Item' }}</h1>
       </div>
     </div>
   </nav>
 
-  <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-xl shadow-2xl">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">{{ title|default:'Add/Update Item' }}</h1>
-    
+  <!-- CARD -->
+  <div class="max-w-2xl mx-auto mt-10 p-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5">
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">{{ title|default:'Add/Update Item' }}</h2>
+
     <form method="POST" class="space-y-6">
-        {% csrf_token %}
-
-        {% for field in form %}
+      {% csrf_token %}
+      {% for field in form %}
         <div class="flex flex-col">
-            <label for="{{ field.id_for_label }}" class="text-lg font-medium text-gray-700 mb-1">
-                {{ field.label }}
-            </label>
-            {{ field }}
-            {% for error in field.errors %}
-                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
-            {% endfor %}
+          <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-700 mb-1.5">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="text-rose-600 text-sm mt-1">{{ error }}</p>
+          {% endfor %}
         </div>
-        {% endfor %}
+      {% endfor %}
 
-        <div class="flex justify-end pt-4">
-          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
-            Save Item
-          </button>
-        </div>
+      <div class="flex justify-end gap-3 pt-2">
+        <a href="{% url 'myapp:index' %}"
+           class="px-5 py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium transition">
+          Cancel
+        </a>
+        <button type="submit"
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+          Save Item
+        </button>
+      </div>
     </form>
 
     {% if item %}
-    <div class="mt-6 pt-4 border-t border-gray-200">
-      <a class="text-sm text-red-500 hover:text-red-700 transition duration-150" 
-         href="{% url 'myapp:item_delete' item.id %}">
-        Or, Delete this item
-      </a>
-    </div>
+      <div class="mt-6 pt-4 border-t border-gray-200">
+        <a class="inline-flex items-center gap-2 text-sm font-medium text-rose-600 hover:text-rose-700 transition"
+           href="{% url 'myapp:item_delete' item.id %}">
+          <span>🗑️</span> Delete this item
+        </a>
+      </div>
     {% endif %}
   </div>
 
+  <!-- INPUT STYLES (CDN-safe, no @apply) -->
   <style>
-    /* Custom styling for form fields to look good with Tailwind */
-    input:not([type="checkbox"]), textarea {
-        @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150;
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    input[type="file"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      background: #fff;
+      color: #111827;
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #f97316; /* orange-500 */
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
+    }
+    button:active { transform: translateY(1px); }
+    @media (prefers-color-scheme: dark) {
+      .text-gray-900 { color: #e5e7eb; }
+      .text-gray-700 { color: #cbd5e1; }
+      .bg-white\/90 { background: rgba(15,23,42,.9); }
+      input, textarea, select { background:#0b1220; color:#e2e8f0; border-color:#1f2937; }
     }
   </style>
 </body>

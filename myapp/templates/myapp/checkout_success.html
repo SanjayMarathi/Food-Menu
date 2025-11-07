@@ -2,34 +2,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order Placed! | FoodApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Placed! | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
 
-    <div class="max-w-md mx-auto p-8 bg-white rounded-xl shadow-2xl text-center">
-        <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h1 class="text-3xl font-bold text-green-700 mt-4 mb-2">Order Placed Successfully!</h1>
-        
-        <p class="text-gray-700 text-lg mb-4">
-            Your order has been sent to the kitchen.
-        </p>
-        
-        <p class="text-gray-900 font-extrabold text-2xl mb-6">
-            Order #{{ order.id }} - Total: ${{ order.total_price|floatformat:2 }}
-        </p>
+<body class="min-h-dvh flex items-center justify-center bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_60%),radial-gradient(70%_90%_at_100%_0%,#ffd6d6_0%,transparent_70%),linear-gradient(180deg,#fff7f3,#fff)]">
 
-        <p class="text-gray-600 text-sm mb-8">
-            Please wait for the staff to process your payment.
-        </p>
-        
-        <a href="{% url 'myapp:menu' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
-            Start New Order
-        </a>
+  <div class="max-w-md w-full mx-auto p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
+
+    <!-- SUCCESS ICON -->
+    <div class="mx-auto size-20 flex items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 shadow-sm">
+      <svg viewBox="0 0 24 24" fill="none" class="size-12" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+      </svg>
     </div>
+
+    <!-- TITLE -->
+    <h1 class="text-3xl font-extrabold text-gray-900 mt-6">Order Placed Successfully!</h1>
+
+    <!-- SUBTEXT -->
+    <p class="text-gray-700 text-lg mt-2">
+      Your order has been sent to the kitchen.
+    </p>
+
+    <!-- ORDER DETAILS -->
+    <p class="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent font-extrabold text-2xl mt-6 mb-2">
+      Order #{{ order.id }} — ${{ order.total_price|floatformat:2 }}
+    </p>
+
+    <p class="text-gray-500 text-sm mb-8">
+      Please wait for the staff to process your payment.
+    </p>
+
+    <!-- BUTTON -->
+    <a href="{% url 'myapp:menu' %}"
+       class="inline-flex justify-center items-center px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
+      Start New Order
+    </a>
+
+  </div>
+
 </body>
 </html>

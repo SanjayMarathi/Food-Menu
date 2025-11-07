@@ -1,96 +1,167 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Menu | FoodApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body class="bg-gray-50 min-h-screen">
-    <nav class="bg-blue-700 text-white shadow-lg">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex-shrink-0 flex items-center">
-            <a href="{% url 'myapp:menu' %}" class="text-2xl font-extrabold tracking-wider">
-              FoodApp Menu
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-             {% if table_number != 'N/A' %}
-                <span class="text-xl font-bold">Table: {{ table_number }}</span>
-             {% endif %}
-            <a
-              href="{% url 'myapp:view_cart' %}"
-              class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md"
-            >
-              🛒 View Cart
-            </a>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+  <!-- NAV -->
+  <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <a href="{% url 'myapp:menu' %}" class="text-2xl font-extrabold tracking-wide">
+          FoodApp Menu
+        </a>
+        <div class="flex items-center gap-3">
+          {% if table_number != 'N/A' %}
+            <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15">
+              <span class="text-xs uppercase tracking-wider opacity-90">Table</span>
+              <span class="text-lg font-bold">{{ table_number }}</span>
+            </span>
+          {% endif %}
+          <a href="{% url 'myapp:view_cart' %}"
+             class="inline-flex items-center gap-2 bg-white text-red-700 hover:bg-red-600 hover:text-white font-semibold py-2 px-4 rounded-xl transition shadow-md">
+            <span>🛒</span> View Cart
+          </a>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="menu-content">
-      
-      {# NEW: Django Messages/Notification Block #}
-      {% if messages %}
-      <div class="mb-8">
-          {% for message in messages %}
-          <div class="p-4 rounded-lg text-sm 
-              {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'info' %}bg-blue-100 text-blue-700{% else %}bg-gray-100 text-gray-700{% endif %}
-              " role="alert">
-              {{ message }}
+  <!-- CONTENT -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="menu-content">
+
+    {% if messages %}
+      <div class="mb-8 space-y-3">
+        {% for message in messages %}
+          <div class="p-4 rounded-xl text-sm ring-1 ring-black/5
+            {% if message.tags == 'success' %} bg-emerald-50 text-emerald-700
+            {% elif message.tags == 'info' %} bg-orange-50 text-orange-700
+            {% elif message.tags == 'warning' %} bg-amber-50 text-amber-800
+            {% elif message.tags == 'error' %} bg-rose-50 text-rose-700
+            {% else %} bg-gray-50 text-gray-700 {% endif %}">
+            {{ message }}
           </div>
-          {% endfor %}
+        {% endfor %}
       </div>
-      {% endif %}
-      {# END NEW BLOCK #}
-      
-      <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">
-        Today's Specials
-      </h2>
+    {% endif %}
 
-      {% if not item_list %}
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-8 text-center">Today's Specials</h2>
+
+    {% if not item_list %}
       <div class="text-center text-gray-500 text-lg py-10">
         No menu items found. Please check back later!
       </div>
-      {% else %}
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-      >
+    {% else %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {% for item in item_list %}
-        <div
-          class="bg-white rounded-xl shadow-2xl overflow-hidden"
-        >
-          <img
-            class="w-full h-56 object-cover"
-            src="{{ item.item_image }}"
-            alt="{{ item.item_name }}"
-          />
-          <div class="p-6">
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">
-              {{ item.item_name }} 
-            </h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              {{ item.item_description|truncatewords:15 }}
-            </p>
-            <div class="flex justify-between items-center">
-              <span class="text-3xl font-extrabold text-green-600"
-                >${{ item.item_price }}</span
-              >
-              <a
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-150 shadow-lg"
-                href="{% url 'myapp:add_to_cart' item.id %}"
-              >
-                + Add to Cart
-              </a>
+          <!-- CLICKABLE CARD (opens modal) -->
+          <div
+            role="button" tabindex="0"
+            class="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 overflow-hidden hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition cursor-pointer"
+            data-id="{{ item.id }}"
+            data-name="{{ item.item_name }}"
+            data-description="{{ item.item_description|escapejs }}"
+            data-price="{{ item.item_price }}"
+            data-image="{{ item.item_image }}"
+            onclick="openItemModal(this)"
+            onkeydown="if(event.key==='Enter' || event.key===' '){ openItemModal(this); event.preventDefault(); }"
+          >
+            <img class="w-full h-56 object-cover" src="{{ item.item_image }}" alt="{{ item.item_name }}" />
+            <div class="p-6">
+              <h3 class="text-2xl font-bold text-gray-900 mb-1 line-clamp-1">{{ item.item_name }}</h3>
+              <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ item.item_description|truncatewords:15 }}</p>
+
+              <div class="flex items-center justify-between">
+                <span class="text-3xl font-extrabold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                  ${{ item.item_price }}
+                </span>
+
+                <!-- Stop click bubbling so button doesn't open modal -->
+                <a href="{% url 'myapp:add_to_cart' item.id %}"
+                   onclick="event.stopPropagation()"
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-2 px-4 rounded-full transition shadow-md">
+                  + Add to Cart
+                </a>
+              </div>
             </div>
           </div>
-        </div>
         {% endfor %}
       </div>
-      {% endif %}
+    {% endif %}
+  </div>
+
+  <!-- ITEM MODAL -->
+  <div id="itemModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <img id="modalImage" alt="" class="w-full h-64 md:h-full object-cover">
+        <div class="p-6 flex flex-col">
+          <div class="flex items-start justify-between gap-4">
+            <h3 id="modalTitle" class="text-2xl font-extrabold text-gray-900"></h3>
+            <button aria-label="Close" class="text-gray-500 hover:text-gray-700" onclick="closeItemModal()">✕</button>
+          </div>
+          <p id="modalDesc" class="mt-3 text-gray-700 leading-relaxed"></p>
+          <p id="modalPrice" class="mt-6 text-3xl font-extrabold bg-gradient-to-r from-orange-600 to-red-600 text-transparent bg-clip-text"></p>
+          <div class="mt-6 flex gap-3">
+            <a id="modalAddToCart" href="#"
+               class="flex-1 inline-flex justify-center items-center px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold shadow-md hover:from-orange-700 hover:to-red-700 transition">
+              + Add to Cart
+            </a>
+            <button class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition"
+                    onclick="closeItemModal()">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    function openItemModal(cardEl) {
+      const name = cardEl.dataset.name || '';
+      const desc = cardEl.dataset.description || '';
+      const price = cardEl.dataset.price || '';
+      const image = cardEl.dataset.image || '';
+      const id = cardEl.dataset.id;
+
+      document.getElementById('modalTitle').textContent = name;
+      document.getElementById('modalDesc').textContent = desc;
+      document.getElementById('modalPrice').textContent = `$${parseFloat(price).toFixed(2)}`;
+      document.getElementById('modalImage').src = image;
+      document.getElementById('modalImage').alt = name;
+
+      // set Add to Cart link
+      const addHrefTemplate = "{% url 'myapp:add_to_cart' 0 %}".replace('/0/', `/${id}/`);
+      document.getElementById('modalAddToCart').href = addHrefTemplate;
+
+      const modal = document.getElementById('itemModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      // close on backdrop click
+      modal.addEventListener('click', backdropClose);
+      // close on Esc
+      document.addEventListener('keydown', escClose);
+    }
+
+    function closeItemModal() {
+      const modal = document.getElementById('itemModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modal.removeEventListener('click', backdropClose);
+      document.removeEventListener('keydown', escClose);
+    }
+
+    function backdropClose(e) {
+      if (e.target === e.currentTarget) closeItemModal();
+    }
+    function escClose(e) {
+      if (e.key === 'Escape') closeItemModal();
+    }
+  </script>
+</body>
 </html>

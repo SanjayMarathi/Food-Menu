@@ -125,7 +125,8 @@ def generate_qr_code(request, table_id):
 @staff_required
 def update_order_status(request, order_id, new_status):
     order = get_object_or_404(Order, id=order_id)
-    if new_status in [choice[0] for choice in Order.STATUS_CHOICES]:
+    # FIX: Change to Item.STATUS_CHOICES as the choices were incorrectly linked to Order in models.py
+    if new_status in [choice[0] for choice in Item.STATUS_CHOICES]:
         order.status = new_status
         if new_status == 'Completed':
             order.is_paid = True
