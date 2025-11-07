@@ -12,7 +12,6 @@
 
   <div class="max-w-md w-full mx-auto p-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 text-center">
 
-    <!-- SUCCESS ICON -->
     <div class="mx-auto size-20 flex items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 shadow-sm">
       <svg viewBox="0 0 24 24" fill="none" class="size-12" stroke="currentColor" stroke-width="1.7">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -20,15 +19,12 @@
       </svg>
     </div>
 
-    <!-- TITLE -->
     <h1 class="text-3xl font-extrabold text-gray-900 mt-6">Order Placed Successfully!</h1>
 
-    <!-- SUBTEXT -->
     <p class="text-gray-700 text-lg mt-2">
       Your order has been sent to the kitchen.
     </p>
 
-    <!-- ORDER DETAILS -->
     <p class="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent font-extrabold text-2xl mt-6 mb-2">
       Order #{{ order.id }} — ${{ order.total_price|floatformat:2 }}
     </p>
@@ -37,8 +33,7 @@
       Please wait for the staff to process your payment.
     </p>
 
-    <!-- BUTTON -->
-    <a href="{% url 'myapp:menu' %}"
+    <a href="{{ menu_redirect_url }}"
        class="inline-flex justify-center items-center px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:from-orange-600 hover:to-red-600 transition">
       Start New Order
     </a>

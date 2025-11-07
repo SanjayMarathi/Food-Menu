@@ -42,15 +42,17 @@
       {% endif %}
 
       <form method="POST" class="space-y-6">
-        {% csrf_token %} {% for field in form %}
+        {% csrf_token %}
+        {% for field in form %}
         <div class="flex flex-col">
           <label
             for="{{ field.id_for_label }}"
             class="text-sm font-medium text-gray-700 mb-1.5"
           >
-            {{ field.label }}
+            {{ field.label }}{% if field.name == 'password1' %} (Password should not contain username){% endif %}
           </label>
-          {{ field }} {% for error in field.errors %}
+          {{ field }}
+          {% for error in field.errors %}
           <p class="text-red-500 text-sm mt-1">{{ error }}</p>
           {% endfor %}
         </div>
@@ -74,6 +76,7 @@
           </button>
         </div>
       </form>
+
       <p class="text-center text-sm text-gray-600 pt-3">
         How to use FoodApp?
         <a
@@ -100,12 +103,14 @@
         transition: 0.2s border, 0.2s box-shadow;
         outline: none;
       }
+
       input:focus,
       textarea:focus,
       select:focus {
         border-color: #f97316;
         box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
       }
+
       button:active {
         transform: translateY(1px);
       }

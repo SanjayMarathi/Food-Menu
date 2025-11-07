@@ -108,9 +108,12 @@ def staff_dashboard(request):
 @login_required(login_url='login')
 def generate_qr_code(request, table_id):
     """Generates a QR code for a specific table URL."""
-    # Logic remains the same, as the QR code URL is the public menu link.
-    relative_url = reverse('myapp:menu_with_table', kwargs={'table_id': table_id})
+    # UPDATED: Include the staff user's username in the URL so the menu view can filter.
+    username = request.user.username
+    relative_url = reverse('myapp:menu_with_table', kwargs={'username': username, 'table_id': table_id})
     full_url = request.build_absolute_uri(relative_url)
+
+    # ... (rest of the QR code generation logic remains the same)
 
     # 1. Create QR code object
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
@@ -150,23 +153,26 @@ def update_order_status(request, order_id, new_status):
 
 # --- Customer Facing Views (Public menu now filters by item availability, NOT ownership) ---
 
-def menu(request, table_id=None):
-    """Public view for customers, filters items by is_available=True.
-       NOTE: This public menu intentionally shows ALL available items, 
-             as the current model structure does not assign a 'restaurant' 
-             to the session to filter the menu by owner.
-    """
+def menu(request, username=None, table_id=None):
+    """Public view for customers, filters items by is_available=True AND optionally by a restaurant/user if provided in the URL."""
     if table_id:
         request.session['table_number'] = table_id
         # Store the current menu URL for redirection after adding an item to cart
-        request.session['menu_redirect_url'] = reverse('myapp:menu_with_table', kwargs={'table_id': table_id})
+        # UPDATED: Pass the username to the redirect URL
+        request.session['menu_redirect_url'] = reverse('myapp:menu_with_table', kwargs={'username': username, 'table_id': table_id})
     else:
         # Clear the table-specific redirect URL if accessing the root menu
         if 'menu_redirect_url' in request.session:
             del request.session['menu_redirect_url']
     
-    # FIX: Apply availability filter
+    # Filter items:
+    # 1. Always filter by is_available=True
     item_list = Item.objects.filter(is_available=True)
+    
+    # 2. If a username is provided in the URL (from a QR scan), filter by that user's items.
+    if username:
+        item_list = item_list.filter(user_name__username=username) # Filter by the username from the URL
+
     context = {
         'item_list': item_list,
         'table_number': request.session.get('table_number', 'N/A')
@@ -244,6 +250,12 @@ def checkout(request):
         
         del request.session['cart']
         
-        return render(request, 'myapp/checkout_success.html', {'order': new_order})
+        # FIX: Get the correct menu redirect URL from session, default to generic menu
+        menu_redirect_url = request.session.get('menu_redirect_url', reverse('myapp:menu'))
+        
+        return render(request, 'myapp/checkout_success.html', {
+            'order': new_order,
+            'menu_redirect_url': menu_redirect_url # Pass URL to template
+        })
         
     return redirect('myapp:view_cart')
