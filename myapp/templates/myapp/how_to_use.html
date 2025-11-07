@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Use | FoodApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_65%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_70%),linear-gradient(180deg,#fff7f3,#fff)]">
+
+  <!-- NAV -->
+  <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="{% url 'myapp:menu' %}" class="text-xl sm:text-2xl font-extrabold tracking-wide">
+          FoodApp
+        </a>
+        <div class="flex items-center gap-3">
+          <a href="{% url 'login' %}" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15">Login</a>
+          <a href="{% url 'register' %}" class="px-4 py-2 rounded-lg bg-white text-red-700 hover:bg-red-600 hover:text-white">
+            Create Account
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="text-center">
+      <div class="mx-auto size-16 rounded-2xl grid place-content-center bg-orange-100 text-orange-600 shadow mb-4">🍽️</div>
+      <h1 class="text-4xl font-extrabold text-gray-900">How to Use FoodApp</h1>
+      <p class="mt-2 text-gray-700 max-w-2xl mx-auto">
+        FoodApp is a digital restaurant system for QR-based ordering, live kitchen tracking, and staff-friendly management.
+      </p>
+      <div class="mt-6 flex gap-3 justify-center">
+        <a href="#customers" class="px-4 py-2 rounded-xl bg-white/80 ring-1 ring-black/5 hover:bg-white">For Customers</a>
+        <a href="#staff" class="px-4 py-2 rounded-xl bg-white/80 ring-1 ring-black/5 hover:bg-white">For Staff</a>
+        <a href="#qr" class="px-4 py-2 rounded-xl bg-white/80 ring-1 ring-black/5 hover:bg-white">QR Setup</a>
+        <a href="#faq" class="px-4 py-2 rounded-xl bg-white/80 ring-1 ring-black/5 hover:bg-white">FAQ</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8 mb-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">Overview</h2>
+      <p class="text-gray-700">
+        FoodApp streamlines dining with a QR-powered menu and a real-time staff dashboard. Customers scan the table QR, browse the menu,
+        add items to the cart, and place an order. The kitchen sees live orders; staff update statuses (Pending → Preparing → Completed),
+        and admins manage items, revenue, and QR codes.
+      </p>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section id="customers" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8 mb-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">For Customers</h2>
+      <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+        <li>Scan the QR on your table to open the digital menu.</li>
+        <li>Browse items; tap a card to view description; tap <span class="font-semibold">+ Add to Cart</span>.</li>
+        <li>Open the cart, review items, and tap <span class="font-semibold">Place Order</span>.</li>
+        <li>Your order becomes <span class="font-semibold">Pending</span> for the kitchen; wait for staff for billing.</li>
+      </ol>
+    </section>
+
+    <!-- STAFF -->
+    <section id="staff" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8 mb-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">For Staff & Admin</h2>
+      <div class="grid md:grid-cols-2 gap-6 text-gray-700">
+        <div class="space-y-2">
+          <h3 class="font-semibold text-gray-900">Kitchen Flow</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Open <span class="font-medium">Kitchen & Revenue Dashboard</span>.</li>
+            <li>See <span class="font-medium">Active Orders</span>; update status: Pending → Preparing → Completed/Cancelled.</li>
+            <li>Mark completed and collect payment.</li>
+          </ul>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-semibold text-gray-900">Menu Management</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Add/Edit/Delete items: name, price, description, image.</li>
+            <li>See <span class="font-medium">Top Selling Items</span> and total revenue.</li>
+            <li>Generate and print <span class="font-medium">QR Codes</span> for tables.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- QR SETUP -->
+    <section id="qr" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8 mb-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">QR Code Setup</h2>
+      <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+        <li>Go to Staff Dashboard → <span class="font-semibold">Generate Table QR Codes</span>.</li>
+        <li>Enter table number → click <span class="font-semibold">Generate & Print</span>.</li>
+        <li>Place the printed QR on the physical table.</li>
+        <li>When scanned, customers open the menu pre-filled with the table number.</li>
+      </ol>
+      <p class="mt-3 text-sm text-gray-600">Tip: laminate the print for durability.</p>
+    </section>
+
+    <!-- FULL PROJECT DESCRIPTION -->
+    <section id="full" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8 mb-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">Full Project Description</h2>
+      <p class="text-gray-700">
+        FoodApp is a Django-based restaurant system with Tailwind UI. It includes Login/Register, Menu browsing, Cart & Checkout,
+        Order creation (Pending), Kitchen dashboard with statuses, Revenue analytics, Item CRUD, and QR code generation per table.
+        It’s designed to be fast, simple, and production-friendly for small to medium restaurants.
+      </p>
+      <div class="mt-4 grid md:grid-cols-2 gap-4 text-gray-700">
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Login & Register (staff/admin)</li>
+          <li>Menu with images & descriptions</li>
+          <li>Modal description on card click</li>
+          <li>Cart & simulated billing</li>
+        </ul>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Active orders view for kitchen</li>
+          <li>Status flow: Pending → Preparing → Completed</li>
+          <li>Revenue & top sellers</li>
+          <li>QR generator per table</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-black/5 p-6 md:p-8">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-3">FAQ</h2>
+
+      <details class="group border rounded-xl p-4 mb-3">
+        <summary class="font-semibold cursor-pointer text-gray-900 flex items-center justify-between">
+          Do customers need to log in?
+          <span class="text-gray-500 group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <p class="mt-2 text-gray-700">No. Customers scan a table QR and order directly.</p>
+      </details>
+
+      <details class="group border rounded-xl p-4 mb-3">
+        <summary class="font-semibold cursor-pointer text-gray-900 flex items-center justify-between">
+          Can I disable an item instead of deleting?
+          <span class="text-gray-500 group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <p class="mt-2 text-gray-700">Yes — you can remove it from the menu temporarily by not listing it, or create an “available” toggle.</p>
+      </details>
+
+      <details class="group border rounded-xl p-4">
+        <summary class="font-semibold cursor-pointer text-gray-900 flex items-center justify-between">
+          Where do I see revenue and best sellers?
+          <span class="text-gray-500 group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <p class="mt-2 text-gray-700">In the Staff Dashboard → Revenue & Top Selling Items tables.</p>
+      </details>
+    </section>
+
+    <!-- FOOT ACTIONS -->
+    <div class="mt-8 flex flex-wrap gap-3 justify-center">
+      <a href="{% url 'login' %}" class="px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold shadow-md hover:from-orange-700 hover:to-red-700">
+        Go to Login
+      </a>
+      <a href="{% url 'register' %}" class="px-5 py-3 rounded-xl bg-white text-red-700 ring-1 ring-black/5 hover:bg-red-600 hover:text-white">
+        Create Account
+      </a>
+      <button onclick="window.print()" class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 ring-1 ring-black/5 hover:bg-gray-200">
+        Print Guide
+      </button>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-sm text-gray-500 py-8">
+    © {{ now|date:"Y" }} FoodApp — Smart Restaurant System
+  </footer>
+</body>
+</html>
