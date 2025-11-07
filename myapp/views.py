@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, F, DecimalField # Used for dashboard reports
+from django.contrib import messages # <--- ADDED
 
 # QR Code Libraries
 import qrcode
@@ -138,6 +139,12 @@ def menu(request, table_id=None):
     """Public view for customers, filters items by is_available=True."""
     if table_id:
         request.session['table_number'] = table_id
+        # Store the current menu URL for redirection after adding an item to cart
+        request.session['menu_redirect_url'] = reverse('myapp:menu_with_table', kwargs={'table_id': table_id})
+    else:
+        # Clear the table-specific redirect URL if accessing the root menu
+        if 'menu_redirect_url' in request.session:
+            del request.session['menu_redirect_url']
     
     # FIX: Apply availability filter
     item_list = Item.objects.filter(is_available=True)
@@ -148,7 +155,7 @@ def menu(request, table_id=None):
     return render(request, 'myapp/menu.html', context)
 
 def add_to_cart(request, item_id):
-    """Handles adding item to session-based cart."""
+    """Handles adding item to session-based cart, redirects back to menu with a message."""
     item = get_object_or_404(Item, id=item_id)
     cart = request.session.get('cart', {})
     
@@ -160,11 +167,18 @@ def add_to_cart(request, item_id):
         cart[item_id_str] = {
             'name': item.item_name,
             'price': float(item.item_price),
-            'quantity': 1
+            'quantity': 1,
+            'description': item.item_description # <--- ADDED
         }
         
     request.session['cart'] = cart
-    return redirect('myapp:view_cart')
+    
+    # Add success message (Notification type)
+    messages.success(request, f"{item.item_name} added to cart!")
+
+    # Redirect back to the menu (main or table-specific)
+    menu_redirect_url = request.session.get('menu_redirect_url', reverse('myapp:menu'))
+    return redirect(menu_redirect_url) # <--- REDIRECT CHANGED
 
 def view_cart(request):
     """Displays the current cart contents."""

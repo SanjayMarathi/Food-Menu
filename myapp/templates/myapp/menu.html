@@ -31,7 +31,22 @@
       </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="menu-content">
+      
+      {# NEW: Django Messages/Notification Block #}
+      {% if messages %}
+      <div class="mb-8">
+          {% for message in messages %}
+          <div class="p-4 rounded-lg text-sm 
+              {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'info' %}bg-blue-100 text-blue-700{% else %}bg-gray-100 text-gray-700{% endif %}
+              " role="alert">
+              {{ message }}
+          </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+      {# END NEW BLOCK #}
+      
       <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">
         Today's Specials
       </h2>
