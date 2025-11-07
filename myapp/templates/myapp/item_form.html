@@ -9,6 +9,7 @@
 </head>
 
 <body class="min-h-dvh bg-[radial-gradient(50%_60%_at_10%_10%,#ffeadd_0%,transparent_70%),radial-gradient(60%_80%_at_100%_0%,#ffd6d6_0%,transparent_60%),linear-gradient(180deg,#fff7f3,#fff)]">
+
   <!-- NAV -->
   <nav class="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,38 +61,59 @@
     {% endif %}
   </div>
 
-  <!-- INPUT STYLES (CDN-safe, no @apply) -->
+  <!-- INPUT & TEXTAREA THEME-STYLES -->
   <style>
+    /* Inputs, Select and Textarea unified styling */
     input[type="text"],
     input[type="email"],
     input[type="password"],
     input[type="number"],
     input[type="url"],
     input[type="file"],
-    textarea,
-    select {
+    select,
+    textarea {
       width: 100%;
       padding: 0.75rem 0.9rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb; /* gray-300 */
+      border-radius: 0.75rem;     /* rounded-xl */
       background: #fff;
       color: #111827;
-      transition: border-color .2s, box-shadow .2s;
       outline: none;
+      transition: border-color .2s, box-shadow .2s;
     }
+
+    /* Placeholders */
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af; /* gray-400 */
+    }
+
+    /* Orange focus ring */
     input:focus,
-    textarea:focus,
-    select:focus {
+    select:focus,
+    textarea:focus {
       border-color: #f97316; /* orange-500 */
-      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.18);
     }
+
+    /* Textarea fix: themed height & spacing */
+    textarea {
+      min-height: 9.5rem;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    /* Disabled fields */
+    input[disabled],
+    textarea[disabled],
+    select[disabled] {
+      background: #f3f4f6; /* gray-100 */
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
     button:active { transform: translateY(1px); }
-    @media (prefers-color-scheme: dark) {
-      .text-gray-900 { color: #e5e7eb; }
-      .text-gray-700 { color: #cbd5e1; }
-      .bg-white\/90 { background: rgba(15,23,42,.9); }
-      input, textarea, select { background:#0b1220; color:#e2e8f0; border-color:#1f2937; }
-    }
   </style>
+
 </body>
 </html>
